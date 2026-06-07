@@ -2,6 +2,15 @@
 
 - created react app using vite
 - configured tailwind
+- header
+- routing of app
+- login form
+- signup form
+- form validation
+- useRef hook
+- firebase setup
+- deploying app to prod
+- create signUp user account
 
 # Feature
 
