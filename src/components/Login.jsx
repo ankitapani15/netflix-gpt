@@ -5,8 +5,12 @@ import { validateForm, validateName } from "../utils/validate";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [isSignIn, setIsSignIn] = useState(true);
@@ -14,6 +18,8 @@ const Login = () => {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const nameRef = useRef(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSignUp = () => {
     setIsSignIn(!isSignIn);
@@ -38,10 +44,30 @@ const Login = () => {
         emailRef.current.value,
         passwordRef.current.value,
       )
-        .then((userCredential) => {
+        .then(() => {
           // Signed up
-          const user = userCredential.user;
-          console.log(user);
+          updateProfile(auth.currentUser, {
+            displayName: nameRef.current.value,
+            photoURL:
+              "https://tse3.mm.bing.net/th/id/OIP.Cb_CL__GjWQcwXgcNiKdQAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
+          })
+            .then(() => {
+              const { displayName, email, uid, photoURL } = auth.currentUser;
+              dispatch(
+                addUser({
+                  displayName: displayName,
+                  email: email,
+                  uid: uid,
+                  photoURL: photoURL,
+                }),
+              );
+              navigate("/browse");
+            })
+            .catch((error) => {
+              const errorCode = error.code;
+              const errorMessage = error.message;
+              setValidationMessage(errorCode + "-" + errorMessage);
+            });
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -59,8 +85,15 @@ const Login = () => {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          console.log("user", user);
-          // ...
+          dispatch(
+            addUser({
+              displayName: user.displayName,
+              email: user.email,
+              uid: user.uid,
+              photoURL: user.photoURL,
+            }),
+          );
+          navigate("/browse");
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -79,15 +112,17 @@ const Login = () => {
           src={NETFLIX_BACKGROUND_IMAGE}
           alt="Netflix Background"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30  to-black/90"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30  to-black/70"></div>
 
         <Header />
-        <div className="absolute w-3/12 my-36 mx-auto right-0 left-0 text-white">
+        <div className="absolute inset-0 flex items-center justify-center text-white">
           <form
             onSubmit={(e) => e.preventDefault()}
-            className="bg-black/80 p-12 rounded opacity-90"
+            className="bg-black/80 p-12 rounded opacity-90 w-full max-w-md"
           >
-            <h1 className="text-white text-3xl font-bold py-4">Sign In</h1>
+            <h1 className="text-white text-3xl font-bold py-4">
+              {isSignIn ? "Sign In" : "Sign Up"}
+            </h1>
             {!isSignIn && (
               <input
                 ref={nameRef}
