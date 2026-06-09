@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import Header from "./Header";
-import { NETFLIX_BACKGROUND_IMAGE } from "../utils/imageUrl";
+import { NETFLIX_BACKGROUND_IMAGE } from "../utils/constants";
 import { validateForm, validateName } from "../utils/validate";
 import {
   createUserWithEmailAndPassword,
@@ -10,7 +10,7 @@ import {
 import { auth } from "../utils/firebase";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
-import { useNavigate } from "react-router-dom";
+import { USER_ICON } from "../utils/constants";
 
 const Login = () => {
   const [isSignIn, setIsSignIn] = useState(true);
@@ -19,7 +19,6 @@ const Login = () => {
   const passwordRef = useRef(null);
   const nameRef = useRef(null);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const handleSignUp = () => {
     setIsSignIn(!isSignIn);
@@ -48,8 +47,7 @@ const Login = () => {
           // Signed up
           updateProfile(auth.currentUser, {
             displayName: nameRef.current.value,
-            photoURL:
-              "https://tse3.mm.bing.net/th/id/OIP.Cb_CL__GjWQcwXgcNiKdQAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
+            photoURL: USER_ICON,
           })
             .then(() => {
               const { displayName, email, uid, photoURL } = auth.currentUser;
@@ -61,7 +59,6 @@ const Login = () => {
                   photoURL: photoURL,
                 }),
               );
-              navigate("/browse");
             })
             .catch((error) => {
               const errorCode = error.code;
@@ -93,7 +90,6 @@ const Login = () => {
               photoURL: user.photoURL,
             }),
           );
-          navigate("/browse");
         })
         .catch((error) => {
           const errorCode = error.code;
