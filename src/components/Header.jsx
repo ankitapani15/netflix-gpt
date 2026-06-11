@@ -6,11 +6,15 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
+import { setToggleGptSearchView } from "../utils/gptSearchSlice";
 
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
+  const viewGptButton = useSelector(
+    (store) => store.gptSearch.toggleGptSearchView,
+  );
 
   const handleSignOut = () => {
     // Implement sign-out logic using Firebase auth
@@ -19,6 +23,10 @@ const Header = () => {
       .catch((error) => {
         console.error("Error signing out: ", error);
       });
+  };
+
+  const handleToggleGptClick = () => {
+    dispatch(setToggleGptSearchView());
   };
 
   useEffect(() => {
@@ -50,11 +58,18 @@ const Header = () => {
       <img className="w-40 my-1 mx-10" src={NETFLIX_LOGO} alt="Netflix Logo" />
       {user && (
         <div className="absolute top-4 right-4 flex items-center gap-4">
+          <button
+            onClick={() => handleToggleGptClick()}
+            className="bg-indigo-900 text-white px-4 py-2 rounded-lg"
+          >
+            {viewGptButton ? "Home Page" : "✨ GPT Search"}
+          </button>
           <img
             src={user?.photoURL}
             alt="User Profile"
             className="w-10 h-10 cursor-pointer"
           />
+
           <h2
             onClick={() => handleSignOut()}
             className="text-white  text-xl cursor-pointer hover:text-red-500"

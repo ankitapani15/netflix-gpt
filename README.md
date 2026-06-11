@@ -30,6 +30,7 @@
 - created hooks for popular and top rated movies
 - found poster cdn url in tmdb docs
 - build entire secondary container with proper css.
+- created GPT search page and UI
 
 # Feature
 
