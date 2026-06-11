@@ -23,10 +23,13 @@
 - get data from TMBD now playing movie list API.
 - create custome hooks for fetching api.
 - create movieSlice and update store with movie data.
-- plaining for main and secondary container
+- planning for main and secondary container
 - fetch and update trailer video
 - get embedded youtube link and make it autoplay and mute
 - added tailwind css to make main container look awesome.
+- created hooks for popular and top rated movies
+- found poster cdn url in tmdb docs
+- build entire secondary container with proper css.
 
 # Feature
 

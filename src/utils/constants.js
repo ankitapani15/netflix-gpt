@@ -7,11 +7,18 @@ export const NETFLIX_BACKGROUND_IMAGE =
 export const USER_ICON =
   "https://tse3.mm.bing.net/th/id/OIP.Cb_CL__GjWQcwXgcNiKdQAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3";
 
-export const MOVIE_URL =
+export const NOW_PLAYING_MOVIES_URL =
   "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1";
+
+export const POPULAR_MOVIES_URL =
+  "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1";
+
+export const TOP_RATED_MOVIES_URL =
+  "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1";
 
 export const MOVIE_VIDEO_URL =
   "https://api.themoviedb.org/3/movie/movie_id/videos?language=en-US";
+
 export const MOVIE_API_OPTIONS = {
   method: "GET",
   headers: {
